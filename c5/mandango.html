@@ -1,0 +1,122 @@
+<html>
+<head>
+    <title>Mandango - The Macho Movie Ticket Finder</title>
+    <script type="text/javascript">
+        var seats = [
+            [false, true, false, true, true, true, false, true, false],
+            [false, true, false, true, true, true, false, true, false],
+            [false, true, false, true, true, true, false, true, false],
+            [false, true, false, true, true, true, false, true, false],
+        ];
+        var selSeat = -1;
+        function findSeat() {
+            if (selSeat >= 0) {
+                selSeat = -1;
+                initSeats();
+            }//ÖØÖÃ×ùÎ»×´Ì¬
+
+            var i = 0, finished = false;
+            while (i < seats.length && !finished) {
+                for (var j = 0; j <= seats[i].length; j++) {
+                    if (seats[i][j] && seats[i][j+1] && seats[i][j+2]) {
+                        selSeat = i * seats[i].length + j;
+                        //document.getElementById("seat" + (i * seats[i].length + j)).src = "seat_select.png";
+                        //document.getElementById("seat" + (i * seats[i].length + j + 1)).src = "seat_select.png";
+                        //document.getElementById("seat" + (i * seats[i].length + j + 2)).src = "seat_select.png";
+                        //document.getElementById("seat" + (i * seats[i].length + j)).alt = "Your seat";
+                        setSeat(i * seats[i].length + j, "select", "Your seat");
+                        setSeat(i * seats[i].length + j + 1, "select", "Your seat");
+                        setSeat(i * seats[i].length + j + 2, "select", "Your seat");
+                        var accept = confirm("Seat " + (i * seats[i].length + j + 1) + " is available. Accept?");
+                        if (accept) {
+                            finished = true;
+                            break;
+                        }
+                        else {
+                            selSeat = -1;
+                            //document.getElementById("seat" + (i * seats[i].length + j)).src = "seat_avail.png";
+                            //document.getElementById("seat" + (i * seats[i].length + j)).alt = "Available seat";
+                            setSeat(i * seats[i].length + j, "avail", "Available seat");
+                            setSeat(i * seats[i].length + j + 1, "avail", "Available seat");
+                            setSeat(i * seats[i].length + j + 2, "avail", "Available seat");
+                        }
+                    }
+                }
+                i++;
+            }
+        }
+        function initSeats() {
+            for (var i = 0; i < seats.length; i++) {
+                for (var j = 0; j < seats[i].length; j++) {
+                    if (seats[i][j]) {
+                        //document.getElementById("seat" + (i * seats[i].length + j)).src = "seat_avail.png";
+                        //document.getElementById("seat" + (i * seats[i].length + j)).alt = "Available seat";
+                        setSeat(i * seats[i].length + j, "avail", "Available seat");
+                    }
+                    else {
+                        //document.getElementById("seat" + (i * seats[i].length + j)).src = "seat_unavail.png";
+                        //document.getElementById("seat" + (i * seats[i].length + j)).alt = "Unavailable seat";
+                        setSeat(i * seats[i].length + j, "unavail", "Unavailable seat");
+                    }
+                }
+            }
+        }
+
+        function setSeat(seatNum, status, description) {
+            document.getElementById("seat" + seatNum).src = "seat_" + status + ".png";
+            document.getElementById("seat" + seatNum).alt = description;
+        }
+        function getSeatStatus(setNum){
+            if(selSeat == -1 && (seatNum == selSeat||seatNum == (selSeat + 1)||seatNum == (selSeat + 2))){
+                return "Yours";
+            }
+            else if(seats[Math.floor(seatNum/seats[0].length)][seatNum%seats[i].length])
+                return "available";
+            else
+                return "unavailable";
+
+        }
+    </script>
+</head>
+<body onload="initSeats();">
+    <div style="margin-top:75px; text-align:center">
+        <img id="seat0" src="" alt="" />
+        <img id="seat1" src="" alt="" />
+        <img id="seat2" src="" alt="" />
+        <img id="seat3" src="" alt="" />
+        <img id="seat4" src="" alt="" />
+        <img id="seat5" src="" alt="" />
+        <img id="seat6" src="" alt="" />
+        <img id="seat7" src="" alt="" />
+        <img id="seat8" src="" alt="" /><br />
+        <img id="seat9" src="" alt="" />
+        <img id="seat10" src="" alt="" />
+        <img id="seat11" src="" alt="" />
+        <img id="seat12" src="" alt="" />
+        <img id="seat13" src="" alt="" />
+        <img id="seat14" src="" alt="" />
+        <img id="seat15" src="" alt="" />
+        <img id="seat16" src="" alt="" />
+        <img id="seat17" src="" alt="" /><br />
+        <img id="seat18" src="" alt="" />
+        <img id="seat19" src="" alt="" />
+        <img id="seat20" src="" alt="" />
+        <img id="seat21" src="" alt="" />
+        <img id="seat22" src="" alt="" />
+        <img id="seat23" src="" alt="" />
+        <img id="seat24" src="" alt="" />
+        <img id="seat25" src="" alt="" />
+        <img id="seat26" src="" alt="" /><br />
+        <img id="seat27" src="" alt="" />
+        <img id="seat28" src="" alt="" />
+        <img id="seat29" src="" alt="" />
+        <img id="seat30" src="" alt="" />
+        <img id="seat31" src="" alt="" />
+        <img id="seat32" src="" alt="" />
+        <img id="seat33" src="" alt="" />
+        <img id="seat34" src="" alt="" />
+        <img id="seat35" src="" alt="" /><br />
+        <input type="button" id="findseat" value="Find Seat" onclick="findSeat();" />
+    </div>
+</body>
+</html>
