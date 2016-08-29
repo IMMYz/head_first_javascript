@@ -13,6 +13,19 @@
         function Blog(body, date) {
             this.body = body;
             this.date = date;
+
+            this.toString = function () {
+                return "[" + blog[i].date.getFullYear() + "/" + (blog[i].date.getMonth() + 1) + "/" + blog[i].date.getDate() + "]" + blog[i].body + "i=" + i;
+            }
+            this.toHTML = function (highlight) {
+                var blogHTML = "";
+                blogHTML += highlight ? "<p style='background-color:#EEEEEE'>" : "<p>";
+                blogHTML += "<strong>" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + "/" + this.date.getFullYear() + "</strong></br>" + this.body + "<p>";
+                return blogHTML;
+            }
+            this.containsText = function (text) {
+                return ((this.body.toLowerCase().indexOf(text.toLowerCase()) != -1));
+            }
         }
        
         var blog = [
@@ -27,28 +40,47 @@
                 return blog2.date - blog1.date;
             });
 
+            //if (!numEntries)
+            //    numEntries = blog.length;
+            //var i = 0, blogText = "";
+            //while (i < blog.length && i < numEntries) {
+            //    if (i % 2 == 0)
+            //        blogText += "<p style='background-color:#EEEEEE'>";
+            //    else
+            //        blogText += "<p>";
+            //    blogText += "<strong>" + blog[i].date.getDate()+"/"+(blog[i].date.getMonth()+1)+"/"+blog[i].date.getFullYear()+ "</strong><br/>" + blog[i].body + "</p>";
+            //    //getMonth方法从0-11开始计数
+            //    i++;
+            //}
+            //document.getElementById("blog").innerHTML = blogText;
             if (!numEntries)
                 numEntries = blog.length;
-            var i = 0, blogText = "";
+            var i = 0, blogListHTML = "";
             while (i < blog.length && i < numEntries) {
-                if (i % 2 == 0)
-                    blogText += "<p style='background-color:#EEEEEE'>";
-                else
-                    blogText += "<p>";
-                blogText += "<strong>" + blog[i].date.getDate()+"/"+blog[i].date.getMonth()+"/"+blog[i].date.getYear()+ "</strong><br/>" + blog[i].body + "</p>";
-
-                i++;
+                blogListHTML += blog[i].toHTML(i % 2 == 0);
+                i++
             }
-            document.getElementById("blog").innerHTML = blogText;
+            document.getElementById("blog").innerHTML = blogListHTML;
         }
         
+
         function searchBlog() {
             var searchText = document.getElementById("searchtext").value;
             for (var i = 0; i < blog.length; i++) {
-
+                if (blog[i].body.toLowerCase().indexOf(searchText.toLowerCase()) != -1) {
+                    alert("[" + blog[i].date.getFullYear() + "/" + (blog[i].date.getMonth() + 1) + "/" + blog[i].date.getDate() + "]" + blog[i].body+"i="+i);
+                    break;
+                }
+            }
+            if (i == blog.length) {
+                alert("Sorry,There are no blog entries containing the search text.");
             }
         }
 
+        function randomBlog() {
+            var i = Math.floor(Math.random() * blog.length);
+            alert("[" + blog[i].date.getFullYear() + "/" + (blog[i].date.getMonth() + 1) + "/" + blog[i].date.getDate() + "]" + blog[i].body + "i=" + i);
+        }
     </script>
   </head>
 
@@ -59,5 +91,6 @@
     <input type="button" id="showall" value="Show All Blog Entries" onclick="showBlog();" />
     <input type="button" id="search" value="search" onclick="searchBlog();"/> 
     <input type="text" id="searchtext" name="searchtext" value=""/>
+     <input type="button" id="random" value="random blog" onclick="randomBlog()" />
   </body>
 </html>
