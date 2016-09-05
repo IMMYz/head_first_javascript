@@ -1,0 +1,85 @@
+﻿<html>
+<head>
+    <title>YouCube - The Blog for Cube Puzzlers</title>
+    <script type="text/javascript">
+        //function getDaysBetween(date1,date2) {
+        //    var daysBetween = date1 - date2;
+        //    return math.round(daysBetween);
+        //}
+
+
+
+        function Blog(body, date) {
+            this.body = body;
+            this.date = date;
+        }
+        Blog.prototype.toString = function () {
+            return "[" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + this.date.getFullYear() + "]" + this.body;
+        }
+        Blog.prototype.toHTML = function (highlight) {
+            var blogHTML = "";
+            blogHTML += highlight ? "<p style=background-color:#EEEEEE>" : "<p>";
+            blogHTML += "<strong>" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + "/" + this.date.getFullYear() + "</strong><br/>" +this.body+"<br/>"+this.signature+ "</p>";
+            return blogHTML;
+        }
+        Blog.prototype.containsText = function (text) {
+            Blog.prototype.containsText = function (text) {
+                return (this.body.toLowerCase().indexOf(text.toLowerCase()) != -1);
+            }
+        }
+        Blog.prototype.signature = "Puzzler Ruby";
+        Blog.prototype.shortFormat = function () {
+            return "[" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + this.date.getFullYear() + "]";
+        }
+  
+        var blog = [
+            new Blog("Got the new cube I ordered..", new Date("08/14/2008")),
+            new Blog("Solved the new cube but of course...", new Date("08/19/2008")),
+            new Blog("Managed to get a headache toiling...", new Date("08/16/2008")),
+            new Blog("Found a 7*7*7 cube for sale online...", new Date("08/21/2008"))
+        ];
+
+        function showBlog(numEntries) {
+            blog.sort(function (blog1, blog2) {
+                return blog2.date - blog1.date;
+            });
+            if (!numEntries)
+                numEntries = blog.length;
+            var i = 0, blogListHTML = "";
+            while (i < blog.length && i < numEntries) {
+                blogListHTML += blog[i].toHTML(i % 2 == 0);
+                i++
+            }
+            document.getElementById("blog").innerHTML = blogListHTML;
+        }
+
+
+        function searchBlog() {
+            var searchText = document.getElementById("searchtext").value;
+            for (var i = 0; i < blog.length; i++) {
+                if (blog[i].body.toLowerCase().indexOf(searchText.toLowerCase()) != -1) {
+                    alert("[" + blog[i].date.getFullYear() + "/" + (blog[i].date.getMonth() + 1) + "/" + blog[i].date.getDate() + "]" + blog[i].body + "i=" + i);
+                    break;
+                }
+            }
+            if (i == blog.length) {
+                alert("Sorry,There are no blog entries containing the search text.");
+            }
+        }
+
+        function randomBlog() {
+            var i = Math.floor(Math.random() * blog.length);
+            alert("[" + blog[i].date.getFullYear() + "/" + (blog[i].date.getMonth() + 1) + "/" + blog[i].date.getDate() + "]" + blog[i].body + "i=" + i);
+        }
+    </script>
+</head>
+<body onload="showBlog(5);">
+    <h3>YouCube - The Blog for Cube Puzzlers</h3>
+    <img src="cube.png" alt="YouCube" />
+    <div id="blog"></div>
+    <input type="button" id="showall" value="Show All Blog Entries" onclick="showBlog();" />
+    <input type="button" id="search" value="search" onclick="searchBlog();" />
+    <input type="text" id="searchtext" name="searchtext" value="" />
+    <input type="button" id="random" value="random blog" onclick="randomBlog()" />
+</body>
+</html>
