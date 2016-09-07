@@ -13,13 +13,16 @@
             this.body = body;
             this.date = date;
         }
+        Date.prototype.shortformat = function () {
+            return (this.getMonth() + 1) + "/" + this.getDate() + "/" + this.getFullYear();
+        }
         Blog.prototype.toString = function () {
-            return "[" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + this.date.getFullYear() + "]" + this.body;
+            return "[" + this.date.shortformat();+ "]" + this.body;
         }
         Blog.prototype.toHTML = function (highlight) {
             var blogHTML = "";
             blogHTML += highlight ? "<p style=background-color:#EEEEEE>" : "<p>";
-            blogHTML += "<strong>" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + "/" + this.date.getFullYear() + "</strong><br/>" +this.body+"<br/>"+this.signature+ "</p>";
+            blogHTML += "<strong>" + this.date.shortformat() + "</strong><br/>" +this.body+"<br/>"+this.signature+ "</p>";
             return blogHTML;
         }
         Blog.prototype.containsText = function (text) {
@@ -28,21 +31,19 @@
             }
         }
         Blog.prototype.signature = "Puzzler Ruby";
-        Blog.prototype.shortFormat = function () {
-            return "[" + (this.date.getMonth() + 1) + "/" + this.date.getDate() + this.date.getFullYear() + "]";
-        }
+        Blog.sorter = function (blog1, blog2) {
+            return blog2.date - blog1.date;
+        };
   
         var blog = [
-            new Blog("Got the new cube I ordered..", new Date("08/14/2008")),
+            new Blog("Got the new cube I ordered..", new Date("2008/08/14")),
             new Blog("Solved the new cube but of course...", new Date("08/19/2008")),
             new Blog("Managed to get a headache toiling...", new Date("08/16/2008")),
             new Blog("Found a 7*7*7 cube for sale online...", new Date("08/21/2008"))
         ];
 
         function showBlog(numEntries) {
-            blog.sort(function (blog1, blog2) {
-                return blog2.date - blog1.date;
-            });
+            blog.sort(Blog.sorter)
             if (!numEntries)
                 numEntries = blog.length;
             var i = 0, blogListHTML = "";
