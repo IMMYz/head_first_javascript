@@ -9,9 +9,10 @@
 
 
 
-        function Blog(body, date) {
+        function Blog(body, date,image) {
             this.body = body;
             this.date = date;
+            this.image = image;
         }
         Date.prototype.shortformat = function () {
             return (this.getMonth() + 1) + "/" + this.getDate() + "/" + this.getFullYear();
@@ -22,7 +23,12 @@
         Blog.prototype.toHTML = function (highlight) {
             var blogHTML = "";
             blogHTML += highlight ? "<p style=background-color:#EEEEEE>" : "<p>";
-            blogHTML += "<strong>" + this.date.shortformat() + "</strong><br/>" +this.body+"<br/>"+this.signature+ "</p>";
+            if (this.image) {
+                blogHTML += blogHTML += "<strong>" + this.date.shortformat() + "</strong><br/>" + this.body + "<br/>" +"<img src='"+this.image+"'/>"+"<br/>"+ this.signature + "</p>";
+            }
+            else{
+            blogHTML += "<strong>" + this.date.shortformat() + "</strong><br/>" + this.body + "<br/>" + this.signature + "</p>";
+            }
             return blogHTML;
         }
         Blog.prototype.containsText = function (text) {
@@ -36,7 +42,7 @@
         };
   
         var blog = [
-            new Blog("Got the new cube I ordered..", new Date("2008/08/14")),
+            new Blog("Got the new cube I ordered..", new Date("2008/08/14"),"cube777.png"),
             new Blog("Solved the new cube but of course...", new Date("08/19/2008")),
             new Blog("Managed to get a headache toiling...", new Date("08/16/2008")),
             new Blog("Found a 7*7*7 cube for sale online...", new Date("08/21/2008"))
