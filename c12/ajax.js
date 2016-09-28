@@ -42,10 +42,11 @@ AjaxRequest.prototype.send = function (type, url, handler, postDataType, postDat
 
 function handleRequest() {
     if (ajaxReg.getReadyState() == 4 && ajaxReq.getStatus() == 200) {
+        //通过检查请求的状态，确定Ajax请求完全成功
         var xmlData = ajaxReq.getResponseXML().getElementByTagName("blog")[0];
-
+        //XML数据里只有一个<body>标签，故抓取由setElementByTagName()返回的数组的第一个元素
         Blog.prototype.singnature = "by" + getText(xmlData.getElementsByTagName("author")[0]);
-
+        
         var entries = xmlData.getElementsByTagName("entry");
         for (var i = 0; i < entries.length; i++) {
             blog.push(new Blog(getText(entries[i].getElementsByTagName("body")[0]),
